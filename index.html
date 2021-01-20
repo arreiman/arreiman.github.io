@@ -1,7 +1,176 @@
+
 <!DOCTYPE html>
 <html>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+
+<style>
+#map {
+    position: fixed;
+    width:50%;
+}
+#features {
+    width: 50%;
+    margin-left: 50%;
+    font-family: Tw Cen MT;
+    overflow-y: scroll;
+    background-color: #fafafa;
+}
+section {
+    padding:  25px 50px;
+    line-height: 25px;
+    border-bottom: 1px solid #ddd;
+    opacity: 0.25;
+    font-size: 20px;
+}
+section.active {
+    opacity: 1;
+}
+section:last-child {
+    border-bottom: none;
+    margin-bottom: 1000px;
+}
+</style>
+
+<div id='map'></div>
+<div id='features'>
+    <section id='welcome' class='active'>
+        <h3>Andrew Reiman's Cartographic Resume</h3>
+        <p>Born at the far northern-tip of Michigan's Lower Peninsula, my personal curiosity and technical abilities have lead me to solving problems and supporting others all around the globe.</p>
+    </section>
+    <section id='section1' class='active'>
+        <h3>Muncie, Indiana</h3>
+        <p>Muncie, Indiana <br><br>College & Work, 2008-2013<br><br>At the same time I attending Ball State University, I also managed the School of Music Computer lab, as well as the recording services used across campus. In addition to being supplemental to my education, these jobs helped establish a passion for acquiring and sharing technical information with those who seek it.<br><br> Graduated May of 2013 with a Bachelor's in Music Technology and minors in Applied Physics and Low-Voltage Electronics  </p>
+    </section>
+    <section id='section2'>
+        <h3>Los Angeles, California-based</h3>
+        <p>The Ready Set Touring, 2010-2014<br><br>Lead Audio and Monitor Engineer<br><br>The other half of my high-school band decided to go solo after we graduated, and ended up being relatively successful. While in college, I was able to spend breaks and summers touring with him, this time working behind the scenes rahter than onstage performing. After graduating college, he offered me a full-time position touring internationally as his Monitor Engineer. The constant communication required while travelling and troubleshooting skills developed from working in different venues daily are a cornerstone of my professional life to this day.</p>
+    </section>
+    <section id='section3'>
+        <h3>Fort Wayne, Indiana</h3>
+        <p>Rise'n Roll Bakery & Deli, September 2014-June 2015<br><br>IT Installation Manager<br><br>In 2014, my parents opened a bakery that specializes in Amsih baked goods that are baked on the same day they are sold. I developed and built the Point-of-Sale system in the strore, as well as the installation of the physical infrastructure to support it. This process included heavy communication with the Amish owners of the company, who had never used computers before. I continued to provied Legacy support for the system until it was replaced in 2020.</p><p>Sweetwater Sound, Inc., June 2015-February 2016<br><br>Sales Engineer<br><br>Support and technical database knowledge were the backbone of my time at the world's largest retailer for professional musicians. After a 13-week intensive training course on digital and analog technologies, I was the sole point of contact for over 3,000 clients who relied on me for sales, service, and support over the phone and email.</p>
+    </section>
+    <section id='section4'>
+        <h3>Chicago</h3>
+        <p>The Apollo Theater Chicago, April 2016-December 2017<br><br>Patron Experience & Technical Service<br><br>In addition to using my existing knowledge of theater and audio technologies to enhance patron experiences at this historic theater in Chicago, a fluent knowledge of the MS-DOS based Ticketmaster proprietary software was necessary on a constant basis. Communication skills were equally as important as technical knowhow in a rental theater, where the lighting grid or the entire set might need to change completely just a few days. </p>
+        </p>
+    </section>
+    <section id='section5'>
+        <h3>Fort Wayne, Indiana</h3>
+        <p>Rise'n Roll Bakery & Deli, December 2017-April 2019<br><br>Franchise Manager<br><br>With the success of their first location, my parents decided to open a second store on the other side of town. While they oversaw they construction of the second store, I managed daily operation of the original location. During my time in this role, I streamlined the daily ordering process, created new inventory replentishment guidelines, and expanded product offerings, while cultivating a customer-first atmosphere amongst the staff.</p>
+    </section>
+    <section id='section6'>
+        <h3>Petoskey, Michigan</h3>
+        <p>Monarch Garden & Floral Design, April 2019-March 2020<br><br>Lead Event Installer<br><br>Working as the intermediary between the florist and the high-dollar clients of exclusive resort communities in Northern Michigan allowed me to create beautiful settings and events. Planning and research helped me to enjoy working with my hands and my mind in this position</p>
+    </section>
+    <section id='section7'>
+        <h3>Various Locations</h3>
+        <p>Aoede Music Productions, November 2015-Current<br><br>Executive Producer<br><br>After I stopped touring in 2015, two friends and I formed a small company creating and producing mostly commercial audio products for different mediums. This venture has included projects with Netflix, Joseph Gordon-Levitt, Austin Wintory, and more. My primary role is to brainstorm and synthesize ideas with clients, oversee composition, and then edit and finalize projects before delivery.<p></p></p>
+    </section>
+</div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3cmVpbWFuIiwiYSI6ImNranlqNmZsODBlNWEycWt6NDNhZXlvMHQifQ.71QOhwHoZlIjnPFZnF57tQ';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/outdoors-v10',
+        bearing: -0,
+        center: [-108.866174, 49.272291],
+        zoom: 2,
+        speed: 0.8,
+        pitch: 0
+});
+var chapters = {
+    'welcome': {
+        bearing: -0,
+        center: [45.403, -84.905],
+        zoom: 11.96,
+        speed: 0.8,
+        pitch: 0
+    },
+    'section1': {
+        bearing: -0,
+        center: [40.210, -85.410],
+        zoom: 14.42,
+        pitch: 0
+        speed: 0.8
+    },
+    'section2': {
+        bearing: 0,
+        center: [34.077, -118.313],
+        zoom: 11.74,
+        speed: 0.8,
+        pitch: 0
+    },
+    'section3': {
+        bearing: 0,
+        center: [41.072, -85.150],
+        zoom: 11.59,
+        speed: 0.8,
+        pitch: 0
+    },
+    'section4': {
+        bearing: 0,
+        center: [41.904, -87.675],
+        zoom: 12.34,
+        speed: 0.8,
+        pitch: 0
+    },
+    'section5': {
+        bearing: 0,
+        center: [41.072, -87.675],
+        zoom: 11.59,
+        pitch: 0,
+        speed: 0.8
+    },
+    'section6': {
+        bearing: 0,
+        center: [45.402, -84.950],
+        zoom: 12.28,
+        pitch: 0,
+        speed: 0.8
+    },
+    'section7': {
+        bearing: -0,
+        center: [40.033, -96.022],
+        zoom: 3.60,
+        speed: 0.8,
+        pitch: 0
+    },
+};
+// On every scroll event, check which element is on screen
+window.onscroll = function() {
+    var chapterNames = Object.keys(chapters);
+    for (var i = 0; i < chapterNames.length; i++) {
+        var chapterName = chapterNames[i];
+        if (isElementOnScreen(chapterName)) {
+            setActiveChapter(chapterName);
+            break;
+        }
+    }
+};
+var activeChapterName = 'baker';
+function setActiveChapter(chapterName) {
+    if (chapterName === activeChapterName) return;
+    map.flyTo(chapters[chapterName]);
+    document.getElementById(chapterName).setAttribute('class', 'active');
+    document.getElementById(activeChapterName).setAttribute('class', '');
+    activeChapterName = chapterName;
+}
+function isElementOnScreen(id) {
+    var element = document.getElementById(id);
+    var bounds = element.getBoundingClientRect();
+    return bounds.top < window.innerHeight && bounds.bottom > 0;
+}
+</script>
 </body>
 </html>
