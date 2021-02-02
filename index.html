@@ -64,55 +64,6 @@
     padding: 0 10px;
   }
 
-  .listings {
-      height: 100%;
-      overflow: atuo;
-      padding-bottom: 60px;
-  }
-  
-  .listings .item {
-      display: block;
-      border-bottom: 1px solid #eee
-      padding: 10px;
-      text-decoration: none;
-  }
-
-  .listings .item:last-child {border-bottom: none; }
-
-  .listings .item .title {
-      display: block;
-      color: #00853e;
-      font-weight: 700;
-  }
-
-  .listings. .item. .title small { font-weight: 400; }
-
-  .listings .item.active .title,
-  .listings .item .title:hover { color: #8cc63f; }
-
-  .listings .item.active {
-      background-color: #f8f8f8;
-  }
-
-  ::-webkit-scrollbar-track {
-      background: none;
-  }
-
-  ::webkit-scrollbar-thumb {
-      background: #00853e;
-      border-radius: 0;
-  }
-
-  .clearfix {display: block; }
-
-  .clearfix::after {
-      content: '-';
-      display: block;
-      height: 0;
-      clear: both;
-      visibility: hidden;
-  }
-
 </style>
 </head>
 
@@ -375,49 +326,14 @@
     }
   ]
 };
-function buildLocationList(data) {
-  data.features.forEach(function(store, i){
-    /**
-     * Create a shortcut for `store.properties`,
-     * which will be used several times below.
-    **/
-    var prop = store.properties;
 
-    /* Add a new listing section to the sidebar. */
-    var listings = document.getElementById('listings');
-    var listing = listings.appendChild(document.createElement('div'));
-    /* Assign a unique `id` to the listing. */
-    listing.id = "listing-" + data.features[i].properties.id;
-    /* Assign the `item` class to each listing for styling. */
-    listing.className = 'item';
-
-    /* Add the link to the individual listing created above. */
-    var link = listing.appendChild(document.createElement('a'));
-    link.href = '#';
-    link.className = 'title';
-    link.id = "link-" + prop.id;
-    link.innerHTML = prop.address;
-
-    /* Add details to the individual listing. */
-    var details = listing.appendChild(document.createElement('div'));
-    details.innerHTML = prop.city;
-    if (prop.phone) {
-      details.innerHTML += ' · ' + prop.phoneFormatted;
-    }
-    if (prop.distance) {
-      var roundedDistance = Math.round(prop.distance * 100) / 100;
-      details.innerHTML +=
-        '<p><strong>' + roundedDistance + ' miles away</strong></p>';
-    }
-  });
-}
 /* Assign a unique ID to each store */
 stores.features.forEach(function(store, i){
   store.properties.id = i;
 });
 map.on('load', function (e) {
   /* Add the data to your map as a layer */
-  map.addLayer(buildLocationList(stores);{
+  map.addLayer({
     "id": "locations",
     "type": "circle",
     /* Add a GeoJSON source containing place coordinates and information. */
