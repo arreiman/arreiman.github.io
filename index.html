@@ -2,6 +2,9 @@
 <!DOCTYPE html>
 <head>
 <html>
+<meta charset="utf-8" />
+<title>Display map navigation controls</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.js'></script>
 <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.css' rel='stylesheet' />
 <style>
@@ -663,8 +666,8 @@ if (!('remove' in Element.prototype)) {
         "phoneFormatted": "Parking",
         "phone": "Parking",
         "address": "Harmon Rd",
-        "city": "Harbor Springs",
-        "country": "Boyne Falls",
+        "city": "Boyne Falls",
+        "country": "United States",
         "postalCode": "49713",
         "state": "MI"
       }
@@ -682,8 +685,8 @@ if (!('remove' in Element.prototype)) {
         "phoneFormatted": "Parking",
         "phone": "Parking",
         "address": "Harmon Rd",
-        "city": "Harbor Springs",
-        "country": "Boyne Falls",
+        "city": "Boyne Falls",
+        "country": "United States",
         "postalCode": "49713",
         "state": "MI"
       }
@@ -825,6 +828,8 @@ function createPopUp(currentFeature) {
       '<h4>' + currentFeature.properties.address + '</h4>')
     .addTo(map);
 }
+
+map.addControl(new mapboxgl.NavigationControl());
 
 </script>
 
