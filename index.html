@@ -469,20 +469,6 @@ map.on('click', function(e) {
 
 function buildLocationList(data) {
   data.features.forEach(function(store, i){
-    link.addEventListener('click', function(e){
-  for (var i = 0; i < data.features.length; i++) {
-    if (this.id === "link-" + data.features[i].properties.id) {
-      var clickedListing = data.features[i];
-      flyToStore(clickedListing);
-      createPopUp(clickedListing);
-    }
-  }  
-  var activeItem = document.getElementsByClassName('active');
-  if (activeItem[0]) {
-    activeItem[0].classList.remove('active');
-  }
-  this.parentNode.classList.add('active');
-});
     /**
      * Create a shortcut for `store.properties`,
      * which will be used several times below.
@@ -515,6 +501,22 @@ function buildLocationList(data) {
       details.innerHTML +=
         '<p><strong>' + roundedDistance + ' miles away</strong></p>';
     }
+    
+    link.addEventListener('click', function(e){
+  for (var i = 0; i < data.features.length; i++) {
+    if (this.id === "link-" + data.features[i].properties.id) {
+      var clickedListing = data.features[i];
+      flyToStore(clickedListing);
+      createPopUp(clickedListing);
+    }
+  }  
+  var activeItem = document.getElementsByClassName('active');
+  if (activeItem[0]) {
+    activeItem[0].classList.remove('active');
+  }
+  this.parentNode.classList.add('active');
+});
+
   });
 }
 
