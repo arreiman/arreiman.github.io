@@ -120,6 +120,55 @@
       visibility: hidden;
   }
 
+  /*Marker tweaks */
+  .mapboxgl-popup-close-button {
+      display: none;
+  }
+
+  .mapboxgl-popup-content {
+      font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
+      padding: 0;
+      width: 180px;
+  }
+
+  .mapboxgl-popup-content-wrapper {
+      padding: 1%;
+  }
+
+  .mapboxgl-popup-content h3 {
+      background: #91c949;
+      color: #fff;
+      margin: 0;
+      display: block;
+      padding: 10px;
+      border-radius: 3px 3px 0 0;
+      font-weight: 700;
+      margin-top: -15px;
+  }
+
+  .mapboxgl-popup-content h4 {
+      margin: 0;
+      display: block;
+      padding: 10px;
+      font-weight: 400;
+  }
+
+  .mapboxgl-popup-content div {
+      padding: 10px;
+  }
+
+  .mapboxgl-container .leaflet-marker-icon {
+      cursor: pointer;
+  }
+
+  .mapbox-popup-anchor-top > .mapboxgl-popup-content {
+      margin-top: 15px;
+  }
+
+  .mapboxgl-popup-anchor-top > .mapboxgl-popup-tip {
+      border-bottom-color: #91c949;
+  }
+
 </style>
 </head>
 
@@ -133,6 +182,15 @@
 <div id="map" class="map"></div>
 
 <script>
+/* This will let you use the .remove() function later on */
+if (!('remove' in Element.prototype)) {
+  Element.prototype.remove = function() {
+    if (this.parentNode) {
+      this.parentNode.removeChild(this);
+    }
+  };
+}
+
   mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3cmVpbWFuIiwiYSI6ImNranlqNmZsODBlNWEycWt6NDNhZXlvMHQifQ.71QOhwHoZlIjnPFZnF57tQ';
 
   var map = new mapboxgl.Map({
@@ -383,8 +441,48 @@
   ]
 };
 
+map.on('click', function(e) {
+  /* Determine if a feature in the "locations" layer exists at that point. */
+  var features = map.queryRenderedFeatures(e.point, {
+    layers: ['locations']
+  });
+  
+  /* If yes, then: */
+  if (features.length) {
+    var clickedPoint = features[0];
+    
+    /* Fly to the point */
+    flyToStore(clickedPoint);
+    
+    /* Close all other popups and display popup for clicked store */
+    createPopUp(clickedPoint);
+    
+    /* Highlight listing in sidebar (and remove highlight for all other listings) */
+    var activeItem = document.getElementsByClassName('active');
+    if (activeItem[0]) {
+      activeItem[0].classList.remove('active');
+    }
+    var listing = document.getElementById('listing-' + clickedPoint.properties.id);
+    listing.classList.add('active');
+  }
+});
+
 function buildLocationList(data) {
   data.features.forEach(function(store, i){
+    link.addEventListener('click', function(e){
+  for (var i = 0; i < data.features.length; i++) {
+    if (this.id === "link-" + data.features[i].properties.id) {
+      var clickedListing = data.features[i];
+      flyToStore(clickedListing);
+      createPopUp(clickedListing);
+    }
+  }  
+  var activeItem = document.getElementsByClassName('active');
+  if (activeItem[0]) {
+    activeItem[0].classList.remove('active');
+  }
+  this.parentNode.classList.add('active');
+});
     /**
      * Create a shortcut for `store.properties`,
      * which will be used several times below.
@@ -437,6 +535,25 @@ map.on('load', function (e) {
   });
   buildLocationList(stores);
 });
+
+function flyToStore(currentFeature) {
+  map.flyTo({
+    center: currentFeature.geometry.coordinates,
+    zoom: 15
+  });
+}
+
+function createPopUp(currentFeature) {
+  var popUps = document.getElementsByClassName('mapboxgl-popup');
+  /** Check if there is already a popup on the map and if so, remove it */
+  if (popUps[0]) popUps[0].remove();
+
+  var popup = new mapboxgl.Popup({ closeOnClick: false })
+    .setLngLat(currentFeature.geometry.coordinates)
+    .setHTML('<h3>Sweetgreen</h3>' +
+      '<h4>' + currentFeature.properties.address + '</h4>')
+    .addTo(map);
+}
 
 </script>
 
